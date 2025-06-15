@@ -3,8 +3,8 @@ from pymongo import MongoClient
 from gridfs import GridFS
 from dotenv import load_dotenv
 import os
-from .parser import parse_resume
-from .scorer import ResumeScorer
+from parser import parse_resume
+from scorer import ResumeScorer
 from datetime import datetime
 import uuid
 import docx
@@ -43,10 +43,9 @@ def add_cors_headers(response):
 def serve_index():
     return send_from_directory(app.template_folder, "index.html")
 
-# Serve favicon.ico
 @app.route("/favicon.ico")
 def serve_favicon():
-    return send_from_directory(os.path.join(app.root_path, "../images"), "favicon.ico")
+    return send_from_directory(os.path.abspath("../images"), "favicon.ico")
 
 # Serve other static files (e.g., style.css, script.js)
 @app.route("/<path:filename>")
@@ -54,20 +53,28 @@ def serve_static(filename):
     return send_from_directory(app.static_folder, filename)
 
 # MongoDB connection
-mongo_uri = os.getenv("MONGO_URI")
 try:
-    client = MongoClient(
-        mongo_uri,
-        tls=True,
-        tlsCAFile=certifi.where(),
-        serverSelectionTimeoutMS=30000,
-        connectTimeoutMS=30000,
-        socketTimeoutMS=30000
-    )
-    client.admin.command('ping')
-    logger.info("Connected to MongoDB")
+    mongo_uri = os.getenv("MONGO_URI")
+
+    client_args = {
+        "connectTimeoutMS": 5000,
+        "socketTimeoutMS": 30000,
+        "serverSelectionTimeoutMS": 5000
+    }
+
+    client = MongoClient(mongo_uri, **client_args)
+
+    # Optional: Only try ping if the URI indicates cloud usage (e.g., contains .mongodb.net)
+    if ".mongodb.net" in mongo_uri:
+        client.admin.command('ping')
+        logger.info("Successfully connected to MongoDB (cloud)")
+    else:
+        logger.info("MongoDB connected!")
+
+    db = client[os.getenv("DB_NAME")]
+
 except Exception as e:
-    logger.error(f"MongoDB connection failed: {str(e)}")
+    logger.error(f"Failed to connect to MongoDB: {str(e)}")
     raise
 
 db = client[os.getenv("DB_NAME")]
