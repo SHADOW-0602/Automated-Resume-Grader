@@ -34,13 +34,13 @@ Resume Grader is a web-based application that analyzes resumes in PDF, DOCX, or 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/resume-grader.git
-   cd resume-grader
+   git clone https://github.com/yourusername/Automated-Resume-Grader.git
+   cd Automated-Resume-Grader
    ```
 
 2. **Set Up Virtual Environment**
    ```bash
-   python -m venv venv
+   python -m venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
@@ -57,8 +57,10 @@ Resume Grader is a web-based application that analyzes resumes in PDF, DOCX, or 
 5. **Set Up Environment Variables**
    Create a `.env` file in the root directory:
    ```plaintext
-   MONGO_URI=mongodb://localhost:27017/resume_grader
+   MONGO_URI=mongodb://localhost:27017/Automated-Resume-Grader
+   DB_NAME=database_key
    COHERE_API_KEY=your_cohere_api_key
+   PORT=8000
    ```
 
 6. **Install spaCy Model**
