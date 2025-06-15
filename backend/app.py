@@ -13,6 +13,9 @@ import logging
 from zlib import compress;
 from io import BytesIO
 import certifi
+import resource
+
+resource.setrlimit(resource.RLIMIT_AS, (512 * 1024 * 1024, 512 * 1024 * 1024))  # 512MB limit
 
 # Configure logger
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -66,7 +69,7 @@ except Exception as e:
     raise
 
 db = client[os.getenv("DB_NAME")]
-fs = GridFS(db)
+fs = GridFS(db, chunk_size=255 * 1024)
 
 # Check if the 'resumes' collection exists, create it if it doesn't
 if "resumes" not in db.list_collection_names():

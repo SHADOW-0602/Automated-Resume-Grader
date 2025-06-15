@@ -1,1 +1,1 @@
-web: gunicorn -w 4 -b 0.0.0.0:$PORT backend.app:app
+web: gunicorn backend.app:app --workers 1 --threads 2 --worker-class gevent --worker-connections 100

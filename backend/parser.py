@@ -98,7 +98,7 @@ def extract_text_from_pdf(file_obj):
             logger.info("Processing as scanned PDF")
             language = detect_resume_language("")
             file_obj.seek(0)
-            images = convert_from_bytes(file_obj.read())
+            images = convert_from_bytes(file_obj.read(), dpi=150)
             text = ""
             for image in images:
                 preprocessed = preprocess_image_for_ocr(image, language)
