@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Grader | Get Instant Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+        <div class="shape-3"></div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="header-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <h1>Resume Grader</h1>
+            <p>Upload your resume (PDF, DOCX, or TXT) to get an instant score and personalized improvement suggestions</p>
+        </header>
+
+        <section class="upload-section">
+            <form id="uploadForm">
+                <div class="form-group file-upload-wrapper">
+                    <label for="resumeUpload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Drag & drop your resume here or click to browse</span>
+                        <small>Supports: PDF, DOCX, TXT</small>
+                    </label>
+                    <input type="file" id="resumeUpload" accept=".pdf,.docx,.txt" required>
+                    <div id="fileDisplay" class="file-display"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobTitle">
+                        <i class="fas fa-briefcase"></i>
+                        Target Job Title (Optional)
+                    </label>
+                    <input type="text" id="jobTitle" placeholder="e.g., Cloud Engineer, Marketing Manager">
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <span class="btn-text">Grade My Resume</span>
+                    <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Analyzing your resume...</p>
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </section>
+
+        <section id="results" class="results" style="display: none;">
+            <div class="score-card">
+                <h2>Your Resume Score</h2>
+                <div class="score-circle" id="scoreValue">
+                    <div class="score-inner">
+                        <span class="score-number">0</span>
+                        <span class="score-total">/100</span>
+                    </div>
+                </div>
+                <div class="score-message" id="scoreMessage"></div>
+            </div>
+
+            <div class="feedback-section">
+                <h3><i class="fas fa-lightbulb"></i> Improvement Suggestions</h3>
+                <ul id="feedbackList"></ul>
+            </div>
+
+            <div class="feedback-section">
+                <h3><i class="fas fa-comment-dots"></i> AI Tone Analysis</h3>
+                <ul id="toneAnalysis"></ul>
+            </div>
+
+            <div class="feedback-section">
+                <h3><i class="fas fa-history"></i> Version History</h3>
+                <button id="viewHistoryBtn" class="outline-btn" style="display: none;">
+                    <i class="fas fa-clock"></i> View Version History
+                </button>
+                <div id="versionHistory" style="display: none;">
+                    <ul id="versionList"></ul>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Automated Resume Grader © 2025</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
