@@ -3,8 +3,8 @@ from pymongo import MongoClient
 from gridfs import GridFS
 from dotenv import load_dotenv
 import os
-from parser import parse_resume
-from scorer import ResumeScorer
+from .parser import parse_resume
+from .scorer import ResumeScorer
 from datetime import datetime
 import uuid
 import docx
