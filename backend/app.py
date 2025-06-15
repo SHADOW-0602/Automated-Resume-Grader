@@ -12,6 +12,7 @@ import hashlib
 import logging
 from zlib import compress;
 from io import BytesIO
+import certifi
 
 # Configure logger
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -21,6 +22,8 @@ logging.basicConfig(level=logging.INFO)
 load_dotenv()
 
 app = Flask(__name__, static_folder="../frontend", template_folder="../frontend")
+app.config['ENV'] = 'production'
+app.config['DEBUG'] = False
 
 # CORS configuration
 @app.after_request
@@ -47,7 +50,21 @@ def serve_static(filename):
 
 # MongoDB connection
 mongo_uri = os.getenv("MONGO_URI")
-client = MongoClient(mongo_uri)
+try:
+    client = MongoClient(
+        mongo_uri,
+        tls=True,
+        tlsCAFile=certifi.where(),
+        serverSelectionTimeoutMS=30000,
+        connectTimeoutMS=30000,
+        socketTimeoutMS=30000
+    )
+    client.admin.command('ping')
+    logger.info("Connected to MongoDB")
+except Exception as e:
+    logger.error(f"MongoDB connection failed: {str(e)}")
+    raise
+
 db = client[os.getenv("DB_NAME")]
 fs = GridFS(db)
 

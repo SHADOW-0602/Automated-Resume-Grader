@@ -9,13 +9,13 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-# def install_spacy_model():
-#     try:
-#         subprocess.run(["python", "-m", "spacy", "download", "en_core_web_lg"], check=True)
-#         logger.info("spaCy model 'en_core_web_lg' installed successfully")
-#     except subprocess.CalledProcessError as e:
-#         logger.error(f"Failed to install spaCy model: {str(e)}")
-#         raise
+def install_spacy_model():
+    try:
+        subprocess.run(["python", "-m", "spacy", "download", "en_core_web_lg"], check=True)
+        logger.info("spaCy model 'en_core_web_lg' installed successfully")
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Failed to install spaCy model: {str(e)}")
+        raise
 
 def connect_to_mongodb():
     try:
@@ -66,7 +66,7 @@ def create_indexes(db):
 
 def run_migration():
     try:
-        # install_spacy_model()
+        install_spacy_model()
         client, db = connect_to_mongodb()
         create_indexes(db)
         logger.info("Migration completed successfully")
