@@ -12,7 +12,6 @@ import hashlib
 import logging
 from zlib import compress;
 from io import BytesIO
-import certifi
 import platform
 
 if platform.system() != "Windows":
@@ -55,7 +54,7 @@ def serve_static(filename):
 # MongoDB connection
 try:
     mongo_uri = os.getenv("MONGO_URI")
-
+    
     client_args = {
         "connectTimeoutMS": 5000,
         "socketTimeoutMS": 30000,
@@ -63,15 +62,8 @@ try:
     }
 
     client = MongoClient(mongo_uri, **client_args)
-
-    # Optional: Only try ping if the URI indicates cloud usage (e.g., contains .mongodb.net)
-    if ".mongodb.net" in mongo_uri:
-        client.admin.command('ping')
-        logger.info("Successfully connected to MongoDB (cloud)")
-    else:
-        logger.info("MongoDB connected!")
-
-    db = client[os.getenv("DB_NAME")]
+    
+    logger.info("Connected to local MongoDB")
 
 except Exception as e:
     logger.error(f"Failed to connect to MongoDB: {str(e)}")
